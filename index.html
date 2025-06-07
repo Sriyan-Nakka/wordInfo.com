@@ -42,6 +42,7 @@
       footer {
         font-size: 1.25rem;
         padding: 0.5rem;
+        color: whitesmoke;
       }
       footer a {
         text-decoration: none;
@@ -67,6 +68,7 @@
       input {
         font-weight: bold;
         font-size: 1.1rem;
+        cursor: pointer;
       }
       button {
         font-size: 1.1rem;
@@ -87,8 +89,23 @@
       form {
         margin: 0px 0px 12px;
       }
+      form p {
+        margin: 12px 0px 7px;
+      }
       header hr {
         margin-top: 5px;
+      }
+      #includeAudio {
+        transform: scale(1.8) translateY(-2px);
+      }
+      #enteredWord {
+        transition: all 0.15s ease-in-out;
+        padding: 3px;
+      }
+      #enteredWord:focus {
+        border: none;
+        outline: 2.5px solid hsl(0, 60%, 50%);
+        border-radius: 5px;
       }
     </style>
   </head>
@@ -103,6 +120,7 @@
       <form id="wordForm">
         Enter a word to find it's info:
         <input type="text" id="enteredWord" placeholder="Word" required />
+        <p><input type="checkbox" id="includeAudio" /> Include Audio</p>
         <button id="findInfoBtn">Find Info</button>
       </form>
       <div id="result">
@@ -138,7 +156,7 @@
         </a>
         <br />
         &copy; Copyright, Sai Sriyan Nakka 2025, All Rights Reserved.
-        <br />Version 0.2 <br />
+        <br />Version 0.3 <br />
       </center>
     </footer>
   </body>
