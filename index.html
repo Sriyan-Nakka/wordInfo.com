@@ -8,6 +8,7 @@
       name="description"
       content="A website where you can know the info of a word."
     />
+    <link rel="shortcut icon" href="favicon.png" type="image/png" />
     <title>WordInfo</title>
     <style>
       @font-face {
@@ -19,6 +20,11 @@
         font-family: "bodyFont";
         src: url("fonts/mouldycheeseregular-webfont.woff2") format("woff2"),
           url("fonts/mouldycheeseregular-webfont.woff") format("woff");
+      }
+      @font-face {
+        font-family: "resultWordFont";
+        src: url("fonts/cooperhewitt-bold-webfont.woff2") format("woff2"),
+          url("fonts/cooperhewitt-bold-webfont.woff") format("woff");
       }
 
       .icon {
@@ -50,6 +56,11 @@
       a,
       button {
         cursor: pointer;
+      }
+      #footerLink {
+        text-decoration: underline;
+        color: skyblue;
+        font-family: resultWordFont, sans-serif;
       }
       hr {
         height: 3px;
@@ -83,7 +94,8 @@
       #resultInner {
         border: 2px solid white;
         border-radius: 5px;
-        padding: 10px;
+        padding: 15px;
+        padding-top: 20px;
         width: 80%;
       }
       form {
@@ -107,6 +119,37 @@
         outline: 2.5px solid hsl(0, 60%, 50%);
         border-radius: 5px;
       }
+      .resultHeading {
+        font-family: headFont, sans-serif;
+        text-decoration: underline;
+        font-size: 2.2rem;
+      }
+      #resultWord {
+        font-family: resultWordFont, sans-serif;
+      }
+      #resultPhonetic {
+        font-family: sans-serif;
+      }
+      ol {
+        margin: 10px 0px;
+        list-style-position: inside;
+        padding: 0px;
+      }
+      #definitionsDiv {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #wordAudio {
+        margin-top: 5px;
+      }
+      li {
+        margin: 20px 0px;
+        font-family: resultWordFont, sans-serif;
+      }
+      #audioFull {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -124,7 +167,27 @@
         <button id="findInfoBtn">Find Info</button>
       </form>
       <div id="result">
-        <div id="resultInner"></div>
+        <div id="resultInner">
+          <span class="resultHeading">Word:</span>
+          <span id="resultWord">Word</span>
+          <br />
+          <span class="resultHeading">Phonetic:</span>
+          <span id="resultPhonetic">/Loading.../</span>
+          <p>
+            <span id="audioFull">
+              <span class="resultHeading">Audio:</span>
+              <br />
+              <audio src="" controls id="wordAudio"></audio>
+              <span id="noAudio"><br />Audio not available.</span>
+            </span>
+          </p>
+          <span class="resultHeading"> Definitions: </span>
+          <div id="definitionsDiv">
+            <div class="definition">
+              <ol id="definitionList"></ol>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <hr id="footerHr" />
@@ -156,7 +219,11 @@
         </a>
         <br />
         &copy; Copyright, Sai Sriyan Nakka 2025, All Rights Reserved.
-        <br />Version 0.3 <br />
+        <br />Version 0.8 <br />
+        Made using
+        <a href="https://dictionaryapi.dev" id="footerLink"
+          >dictionaryapi.dev</a
+        >
       </center>
     </footer>
   </body>

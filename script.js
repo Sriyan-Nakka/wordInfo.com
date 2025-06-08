@@ -3,6 +3,14 @@ const wordForm = document.querySelector("#wordForm");
 const enteredWord = document.querySelector("#enteredWord");
 const includeAudio = document.querySelector("#includeAudio");
 
+//* Results Variables
+const resultWord = document.querySelector("#resultWord");
+const resultPhonetic = document.querySelector("#resultPhonetic");
+const definitionList = document.querySelector("#definitionList");
+const wordAudio = document.querySelector("#wordAudio");
+
+let li;
+
 wordForm.addEventListener("submit", function (e) {
   e.preventDefault();
   enteredWord.setCustomValidity("");
@@ -46,11 +54,53 @@ wordForm.addEventListener("submit", function (e) {
   console.log(includeAudio.checked);
 
   document.querySelector("#result").style.display = "flex";
-  findWordInfo();
+  resultPhonetic.textContent = "";
+
+  findWordInfo(enteredWord.value);
+  if (li) {
+    definitionList.textContent = "";
+  }
 });
 
 enteredWord.addEventListener("input", () => {
   enteredWord.setCustomValidity("");
 });
 
-function findWordInfo() {}
+function findWordInfo(word) {
+  fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.length > 0 && data[0].word) {
+        resultWord.textContent = data[0].word.toUpperCase();
+
+        data[0].meanings[0].definitions.forEach((definition) => {
+          li = document.createElement("li");
+          li.textContent = definition.definition;
+          definitionList.appendChild(li);
+        });
+
+        if (includeAudio.checked) {
+          document.querySelector("#audioFull").style.display = "inline-block";
+          if (data[0].phonetics[0].audio) {
+            console.log("audio: ", data[0].phonetics[0].audio);
+            wordAudio.src = data[0].phonetics[0].audio;
+            document.querySelector("#noAudio").style.display = "none";
+          } else {
+            wordAudio.style.display = "none";
+            document.querySelector("#noAudio").style.display = "inline-block";
+          }
+        } else if (!includeAudio.checked) {
+          document.querySelector("#audioFull").style.display = "none";
+        }
+
+        if (data[0].phonetics[0].text)
+          resultPhonetic.textContent = data[0].phonetics[0].text;
+        else resultPhonetic.textContent = data[0].phonetics[1].text;
+      } else {
+        resultWord.textContent =
+          "Sorry pal, we couldn't find information for the word you were looking for.";
+        resultPhonetic.textContent = data[0].phonetic;
+      }
+    });
+}
