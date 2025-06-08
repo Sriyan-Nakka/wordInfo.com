@@ -135,7 +135,9 @@
         list-style-position: inside;
         padding: 0px;
       }
-      #definitionsDiv {
+      #definitionsDiv,
+      #synonymsDiv,
+      #antonymsDiv {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -187,6 +189,20 @@
               <ol id="definitionList"></ol>
             </div>
           </div>
+          <span class="resultHeading">Synonyms:</span>
+          <span id="noSynonyms">Not available</span>
+          <div id="synonymsDiv">
+            <div class="synonym">
+              <ol id="synonymList"></ol>
+            </div>
+          </div>
+          <span class="resultHeading">Antonyms:</span>
+          <span id="noAntonyms">Not available</span>
+          <div id="antonymsDiv">
+            <div class="antonym">
+              <ol id="antonymList"></ol>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -219,7 +235,7 @@
         </a>
         <br />
         &copy; Copyright, Sai Sriyan Nakka 2025, All Rights Reserved.
-        <br />Version 0.8 <br />
+        <br />Version 1.0 <br />
         Made using
         <a href="https://dictionaryapi.dev" id="footerLink"
           >dictionaryapi.dev</a

@@ -7,9 +7,13 @@ const includeAudio = document.querySelector("#includeAudio");
 const resultWord = document.querySelector("#resultWord");
 const resultPhonetic = document.querySelector("#resultPhonetic");
 const definitionList = document.querySelector("#definitionList");
+const synonymList = document.querySelector("#synonymList");
+const antonymList = document.querySelector("#antonymList");
 const wordAudio = document.querySelector("#wordAudio");
 
 let li;
+let synonym;
+let antonym;
 
 wordForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -57,9 +61,9 @@ wordForm.addEventListener("submit", function (e) {
   resultPhonetic.textContent = "";
 
   findWordInfo(enteredWord.value);
-  if (li) {
-    definitionList.textContent = "";
-  }
+  if (li) definitionList.textContent = "";
+  if (synonym) synonymList.textContent = "";
+  if (antonym) antonymList.textContent = "";
 });
 
 enteredWord.addEventListener("input", () => {
@@ -83,6 +87,7 @@ function findWordInfo(word) {
         if (includeAudio.checked) {
           document.querySelector("#audioFull").style.display = "inline-block";
           if (data[0].phonetics[0].audio) {
+            wordAudio.style.display = "inline-block";
             console.log("audio: ", data[0].phonetics[0].audio);
             wordAudio.src = data[0].phonetics[0].audio;
             document.querySelector("#noAudio").style.display = "none";
@@ -92,11 +97,33 @@ function findWordInfo(word) {
           }
         } else if (!includeAudio.checked) {
           document.querySelector("#audioFull").style.display = "none";
+          wordAudio.src = "";
         }
 
         if (data[0].phonetics[0].text)
           resultPhonetic.textContent = data[0].phonetics[0].text;
         else resultPhonetic.textContent = data[0].phonetics[1].text;
+
+        if (data[0].meanings[0].synonyms) {
+          document.querySelector("#noSynonyms").style.display = "none";
+          data[0].meanings[0].synonyms.forEach((syn) => {
+            synonym = document.createElement("li");
+            synonym.textContent = syn;
+            synonymList.appendChild(synonym);
+          });
+        } else {
+          document.querySelector("#noSynonyms").style.display = "inline-block";
+        }
+        if (data[0].meanings[0].antonyms) {
+          document.querySelector("#noAntonyms").style.display = "none";
+          data[0].meanings[0].antonyms.forEach((syn) => {
+            antonym = document.createElement("li");
+            antonym.textContent = syn;
+            antonymList.appendChild(antonym);
+          });
+        } else {
+          document.querySelector("#noSynonyms").style.display = "inline-block";
+        }
       } else {
         resultWord.textContent =
           "Sorry pal, we couldn't find information for the word you were looking for.";
